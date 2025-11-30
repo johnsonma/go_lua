@@ -50,7 +50,7 @@ func (r *reader) readString() string {
 		size = uint(r.readUint64())
 	}
 
-	bytes := r.readBytes(size)
+	bytes := r.readBytes(size - 1)
 	return string(bytes)
 }
 
@@ -85,9 +85,7 @@ func (r *reader) checkHeader() {
 	if r.readLuaInteger() != LUAC_INT {
 		panic("endianness mismatch")
 	}
-	luaNum := r.readLuaNumber()
-	print(luaNum)
-	if luaNum != LUAC_NUM {
+	if r.readLuaNumber() != LUAC_NUM {
 		panic("float format mismatch!")
 	}
 }
